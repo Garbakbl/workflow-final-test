@@ -3,6 +3,8 @@ name: CI/CD
 on:
   push:
     branches: ["first-iteration"]
+    tags:
+      - '*'
 
 jobs:
 
@@ -22,7 +24,7 @@ jobs:
         run: go test -v ./...
 
   deploy-to-dockerhub:
-    if: startsWith(github.ref, 'refs/tags')
+    if: github.ref_type == 'tag'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
